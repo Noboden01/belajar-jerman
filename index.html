@@ -2,413 +2,500 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deutsch B1 Pro Flashcards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Deutsch Studio Pro 🇩🇪 | 1200+ Flashcards</title>
+    <meta name="description" content="Flashcards Jerman interaktif: 1200+ kosakata A1-C1, audio native, spaced repetition, artikel trainer.">
+    <meta name="theme-color" content="#6366f1">
+    <meta property="og:title" content="Deutsch Studio Pro — Belajar Jerman Gratis">
+    <meta property="og:description" content="1200+ kosakata Jerman A1-C1 dengan audio, SRS, dan progres harian.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇩🇪</text></svg>">
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --card-front-bg: #ffffff;
-            --card-back-bg: #fdfbf7;
-            --text-main: #f8fafc;
-            --text-dark: #0f172a;
-            --text-muted: #94a3b8;
-            --primary: #3b82f6;
-            --primary-hover: #2563eb;
+            --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 60%, #030712 100%);
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            --accent: #f59e0b;
             --success: #10b981;
             --danger: #ef4444;
-            --accent: #f59e0b;
-            --glass-bg: rgba(30, 41, 59, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --purple: #a855f7;
+            --glass-bg: rgba(30, 41, 59, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-muted: #94a3b8;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px 20px;
+            background: var(--bg-gradient); color: #f8fafc; min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 16px; overflow-x: hidden; position: relative;
+        }
+        body::before {
+            content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+            width: 600px; height: 300px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none; z-index: 0;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
+        header { text-align: center; margin-bottom: 12px; position: relative; z-index: 1; width: 100%; max-width: 440px; }
+        .badge-title {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 6px;
         }
-
         h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(to right, #3b82f6, #60a5fa, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            font-size: 1.5rem; font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 1rem;
+        .header-row { display: flex; gap: 8px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
+        .badge-chip {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.06); border: 1px solid var(--glass-border);
+            padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700;
         }
+        .badge-chip.fire { background: rgba(245, 158, 11, 0.15); border-color: rgba(245,158,11,0.4); color: #fbbf24; }
+        .badge-chip.goal { background: rgba(16, 185, 129, 0.12); border-color: rgba(16,185,129,0.4); color: #6ee7b7; }
 
+        /* TABS */
+        .tabs {
+            display: flex; gap: 4px; background: var(--glass-bg);
+            border: 1px solid var(--glass-border); border-radius: 14px;
+            padding: 4px; margin: 12px 0; width: 100%; max-width: 440px;
+            position: relative; z-index: 1; overflow-x: auto;
+        }
+        .tab-btn {
+            flex: 1; padding: 8px 4px; background: transparent; border: none;
+            color: var(--text-muted); font-size: 0.7rem; font-weight: 700;
+            border-radius: 10px; cursor: pointer; display: flex;
+            flex-direction: column; align-items: center; gap: 2px;
+            transition: all 0.2s; box-shadow: none;
+        }
+        .tab-btn i { font-size: 0.95rem; }
+        .tab-btn.active { background: var(--primary); color: #fff; box-shadow: 0 4px 12px var(--primary-glow); }
+        .tab-btn:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.05); }
+
+        .tab-panel { display: none; width: 100%; max-width: 440px; z-index: 1; }
+        .tab-panel.active { display: block; }
+
+        /* DASHBOARD */
         .dashboard {
-            width: 100%;
-            max-width: 420px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            width: 100%; background: var(--glass-bg); border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px); border-radius: 18px; padding: 14px;
+            margin-bottom: 12px; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
         }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
+        .filters-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .filter-group { display: flex; flex-direction: column; gap: 4px; }
+        label { font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            background: #0f172a;
-            border: 1px solid var(--glass-border);
-            color: #fff;
-            font-size: 1rem;
-            cursor: pointer;
-            outline: none;
+            width: 100%; padding: 8px 10px; border-radius: 10px;
+            background: #0f172a; border: 1px solid var(--glass-border);
+            color: #f8fafc; font-size: 0.85rem; font-weight: 600;
+            cursor: pointer; outline: none; transition: all 0.2s;
         }
+        select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
 
-        select:focus { border-color: var(--primary); }
-
-        .stats-grid {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            font-size: 0.95rem;
+        .dashboard-meta {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(15, 23, 42, 0.6); padding: 10px 12px;
+            border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.03);
         }
+        .stats-info { display: flex; align-items: center; gap: 12px; }
+        .stat-item { display: flex; flex-direction: column; }
+        .stat-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+        .stat-value { font-size: 1rem; font-weight: 800; }
 
-        .stat-card {
-            flex: 1;
-            background: rgba(15, 23, 42, 0.4);
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.02);
+        .audio-toggle {
+            display: flex; align-items: center; gap: 6px; cursor: pointer;
+            background: rgba(255, 255, 255, 0.05); padding: 6px 10px;
+            border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.75rem; font-weight: 600; transition: all 0.2s;
         }
+        .audio-toggle:hover { background: rgba(255, 255, 255, 0.1); }
+        .audio-toggle i { color: var(--accent); }
 
-        .stat-card span {
-            display: block;
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-top: 4px;
+        .progress-bar-container { width: 100%; height: 5px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; overflow: hidden; margin-top: 10px; }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%); border-radius: 10px; transition: width 0.3s; }
+
+        .quick-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+        .quick-actions button {
+            flex: 1; min-width: 90px; padding: 8px 6px; border-radius: 10px;
+            background: rgba(255,255,255,0.05); color: #cbd5e1; border: 1px solid var(--glass-border);
+            font-size: 0.72rem; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 4px;
+            transition: all 0.2s; box-shadow: none;
         }
+        .quick-actions button:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .quick-actions button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
+        /* FLASHCARD */
         .flashcard-wrapper {
-            perspective: 1200px;
-            width: 100%;
-            max-width: 420px;
-            height: 280px;
-            cursor: pointer;
-            margin-bottom: 25px;
+            perspective: 1200px; width: 100%; height: 280px;
+            cursor: pointer; margin-bottom: 16px; position: relative;
+            touch-action: pan-y;
         }
-
         .flashcard {
-            width: 100%;
-            height: 100%;
-            position: relative;
+            width: 100%; height: 100%; position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+            border-radius: 22px;
         }
-
-        .flashcard-wrapper:hover .flashcard {
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
         .flashcard.flipped { transform: rotateY(180deg); }
-
         .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 24px;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
+            position: absolute; width: 100%; height: 100%;
+            backface-visibility: hidden; border-radius: 22px;
+            padding: 20px 18px; display: flex; flex-direction: column;
+            justify-content: space-between; align-items: center;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
-
-        .card-front {
-            background: var(--card-front-bg);
-            color: var(--text-dark);
-            border: 4px solid #f1f5f9;
+        .card-front { background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%); color: #0f172a; }
+        .card-back { background: linear-gradient(145deg, #ffffff 0%, #fffbebe6 100%); color: #0f172a; transform: rotateY(180deg); border: 2px solid rgba(245, 158, 11, 0.4); }
+        .card-top-bar { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+        .badges-left { display: flex; gap: 6px; align-items: center; }
+        .level-badge { background: #0f172a; color: #fff; padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; }
+        .category-tag { font-size: 0.7rem; background: rgba(99, 102, 241, 0.12); color: var(--primary-hover); padding: 3px 8px; border-radius: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+        .card-back .category-tag { background: rgba(245, 158, 11, 0.15); color: #d97706; }
+        .bookmark-btn { background: transparent; border: none; cursor: pointer; font-size: 1.2rem; padding: 4px; box-shadow: none; color: #cbd5e1; transition: all 0.2s; }
+        .bookmark-btn:hover { transform: scale(1.2); }
+        .bookmark-btn.active { color: #fbbf24; }
+        .card-body { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; text-align: center; flex: 1; padding: 6px 0; }
+        .word-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; line-height: 1.3; }
+        .word-answer-box { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .word-answer { font-size: 1.4rem; font-weight: 800; color: var(--primary-hover); line-height: 1.2; }
+        .speak-btn {
+            background: rgba(99, 102, 241, 0.1); border: none;
+            color: var(--primary-hover); width: 32px; height: 32px; border-radius: 50%;
+            cursor: pointer; font-size: 0.85rem; transition: all 0.2s; box-shadow: none;
         }
+        .speak-btn:hover { background: var(--primary-hover); color: #fff; transform: scale(1.1); }
+        .word-example { font-size: 0.8rem; color: #334155; line-height: 1.45; background: rgba(241, 245, 249, 0.85); padding: 8px 10px; border-radius: 10px; border-left: 4px solid var(--accent); width: 100%; text-align: left; font-style: italic; }
+        .tap-hint { font-size: 0.68rem; color: #94a3b8; display: flex; align-items: center; gap: 5px; font-weight: 600; }
 
-        .card-back {
-            background: var(--card-back-bg);
-            color: var(--text-dark);
-            transform: rotateY(180deg);
-            border: 4px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .category-tag {
-            position: absolute;
-            top: 20px;
-            font-size: 0.75rem;
-            background: var(--primary);
-            color: white;
-            padding: 5px 14px;
-            border-radius: 30px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
-        }
-
-        .card-back .category-tag {
-            background: var(--accent);
-            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
-        }
-
-        .word-title {
-            font-size: 1.65rem;
-            font-weight: 700;
-            line-height: 1.3;
-            text-align: center;
-            color: #1e293b;
-        }
-
-        .word-answer {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #1d4ed8;
-            text-align: center;
-            margin-bottom: 12px;
-        }
-
-        .word-example {
-            font-size: 0.95rem;
-            color: #475569;
-            line-height: 1.5;
-            background: #f8fafc;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border-left: 5px solid var(--accent);
-            width: 100%;
-            font-style: italic;
-        }
-
-        .tap-hint {
-            position: absolute;
-            bottom: 20px;
-            font-size: 0.8rem;
-            color: #94a3b8;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .controls-pane {
-            width: 100%;
-            max-width: 420px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-            width: 100%;
-        }
-
-        button {
-            border: none;
-            border-radius: 14px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
+        /* CONTROLS */
+        .controls-pane { display: flex; flex-direction: column; gap: 10px; }
+        .action-buttons { display: flex; gap: 10px; }
+        button { border: none; border-radius: 14px; font-size: 0.9rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2); }
         button:hover { transform: translateY(-2px); }
         button:active { transform: translateY(1px); }
-
-        .btn-wrong { flex: 1; padding: 16px; background: var(--danger); color: white; }
-        .btn-wrong:hover { background: #dc2626; box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4); }
-
-        .btn-correct { flex: 1; padding: 16px; background: var(--success); color: white; }
-        .btn-correct:hover { background: #059669; box-shadow: 0 6px 16px rgba(5, 150, 105, 0.4); }
-
-        .btn-next { width: 100%; padding: 16px; background: var(--primary); color: white; }
-        .btn-next:hover { background: var(--primary-hover); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4); }
-
+        .btn-wrong { flex: 1; padding: 14px; background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
+        .btn-wrong:hover { background: var(--danger); color: #fff; }
+        .btn-correct { flex: 1; padding: 14px; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
+        .btn-correct:hover { background: var(--success); color: #fff; }
+        .btn-next { width: 100%; padding: 14px; background: var(--primary); color: #fff; }
+        .btn-next:hover { background: var(--primary-hover); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: #cbd5e1; border: 1px solid var(--glass-border); padding: 8px 12px; border-radius: 10px; font-size: 0.78rem; }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+        .utility-bar { display: flex; justify-content: space-between; gap: 8px; }
         .hidden { display: none !important; }
-    </style>
-    <script src="kosakata.js"></script>
+
+        /* SEARCH + WORD LIST */
+        .search-box {
+            display: flex; align-items: center; gap: 8px;
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            border-radius: 12px; padding: 10px 14px; margin-bottom: 12px;
+        }
+        .search-box i { color: var(--text-muted); }
+        .search-box input {
+            flex: 1; background: transparent; border: none; outline: none;
+            color: #f8fafc; font-size: 0.9rem; font-weight: 500;
+        }
+        .search-box input::placeholder { color: var(--text-muted); }
+
+        .word-list { display: flex; flex-direction: column; gap: 8px; max-height: 60vh; overflow-y: auto; padding-bottom: 20px; }
+        .word-item {
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            border-radius: 12px; padding: 12px 14px; cursor: pointer; transition: all 0.2s;
+        }
+        .word-item:hover { background: rgba(99, 102, 241, 0.1); border-color: var(--primary); }
+        .word-item-front { font-weight: 700; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
+        .word-item-front .level-badge { font-size: 0.6rem; }
+        .word-item-back { font-size: 0.85rem; color: var(--primary-hover); font-weight: 600; margin-top: 4px; display: none; }
+        .word-item.revealed .word-item-back { display: block; }
+        .word-item .word-example-mini { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; display: none; font-style: italic; }
+        .word-item.revealed .word-example-mini { display: block; }
+
+        /* ARTIKEL TRAINER */
+        .artikel-card {
+            background: linear-gradient(145deg, #fff 0%, #f1f5f9 100%);
+            color: #0f172a; border-radius: 22px; padding: 32px 20px;
+            text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+            margin-bottom: 16px; position: relative;
+        }
+        .artikel-word { font-size: 2rem; font-weight: 800; color: #0f172a; margin: 16px 0; }
+        .artikel-hint { font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px; }
+        .artikel-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .artikel-btn {
+            padding: 20px 8px; border-radius: 14px; font-size: 1.4rem; font-weight: 800;
+            background: rgba(99, 102, 241, 0.1); color: var(--primary-hover);
+            border: 2px solid rgba(99, 102, 241, 0.3); cursor: pointer; transition: all 0.2s;
+        }
+        .artikel-btn:hover { background: var(--primary); color: #fff; transform: scale(1.05); }
+        .artikel-btn.correct { background: var(--success); color: #fff; border-color: var(--success); }
+        .artikel-btn.wrong { background: var(--danger); color: #fff; border-color: var(--danger); }
+        .artikel-feedback { margin-top: 14px; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; }
+        .artikel-feedback.correct { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+        .artikel-feedback.wrong { background: rgba(239,68,68,0.15); color: #fca5a5; }
+
+        /* TYPING MODE */
+        .typing-card {
+            background: linear-gradient(145deg, #fff 0%, #f1f5f9 100%);
+            color: #0f172a; border-radius: 22px; padding: 28px 20px;
+            text-align: center; box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+            margin-bottom: 16px;
+        }
+        .typing-front { font-size: 1.4rem; font-weight: 800; margin-bottom: 16px; }
+        .typing-input {
+            width: 100%; padding: 14px 16px; border-radius: 12px;
+            border: 2px solid #cbd5e1; font-size: 1rem; font-weight: 600;
+            text-align: center; outline: none; transition: border 0.2s;
+        }
+        .typing-input:focus { border-color: var(--primary); }
+        .typing-input.correct { border-color: var(--success); background: rgba(16,185,129,0.05); }
+        .typing-input.wrong { border-color: var(--danger); background: rgba(239,68,68,0.05); }
+        .typing-feedback { margin-top: 12px; font-weight: 700; font-size: 0.9rem; min-height: 24px; }
+        .typing-feedback.correct { color: var(--success); }
+        .typing-feedback.wrong { color: var(--danger); }
+        .typing-hint { margin-top: 8px; font-size: 0.8rem; color: var(--text-muted); font-style: italic; }
+
+        /* CHALLENGE */
+        .challenge-container { text-align: center; }
+        .challenge-timer {
+            font-size: 3rem; font-weight: 800; color: var(--accent);
+            margin: 16px 0; text-shadow: 0 0 20px rgba(245,158,11,0.4);
+        }
+        .challenge-timer.danger { color: var(--danger); animation: pulse 0.5s infinite; }
+        @keyframes pulse { 50% { opacity: 0.5; } }
+        .challenge-score { font-size: 1.2rem; margin-bottom: 16px; }
+        .challenge-card {
+            background: linear-gradient(145deg, #fff 0%, #f1f5f9 100%);
+            color: #0f172a; border-radius: 22px; padding: 24px 18px;
+            margin-bottom: 12px; min-height: 180px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .challenge-word { font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; }
+        .challenge-buttons { display: flex; gap: 10px; }
+        .challenge-buttons button { flex: 1; padding: 12px; }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+            display: none; align-items: center; justify-content: center;
+            padding: 20px; z-index: 100; backdrop-filter: blur(4px);
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: #1e293b; border: 1px solid var(--glass-border);
+            border-radius: 20px; padding: 20px; max-width: 440px;
+            width: 100%; max-height: 80vh; overflow-y: auto;
+        }
+        .modal h2 { margin-bottom: 16px; font-size: 1.2rem; }
+        .modal-close {
+            position: absolute; top: 16px; right: 16px;
+            background: rgba(255,255,255,0.1); border: none; color: #fff;
+            width: 32px; height: 32px; border-radius: 50%;
+            cursor: pointer; font-size: 1rem; box-shadow: none;
+        }
+        .progress-cat { margin-bottom: 12px; }
+        .progress-cat-header { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px; font-weight: 600; }
+        .progress-cat-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        .progress-cat-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--success)); border-radius: 10px; transition: width 0.4s; }
+
+        .keyboard-hint { margin-top: 12px; font-size: 0.7rem; color: var(--text-muted); text-align: center; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .key-badge { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 2px 6px; border-radius: 4px; color: #cbd5e1; font-weight: 700; }
+        .challenge-answer {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-hover);
+            margin-top: 8px;
+            min-height: 24px;
+            letter-spacing: 0.3px;
+        }    
+	</style>
 </head>
 <body>
-
     <header>
-        <h1>Deutsch B1 Studio 🇩🇪</h1>
-        <div class="subtitle">Premium Interactive Learning Platform</div>
+        <div class="badge-title"><i class="fa-solid fa-graduation-cap"></i> Deutsch Pro Studio</div>
+        <h1>Deutsch Flashcards 🇩🇪</h1>
+        <div class="header-row">
+            <span class="badge-chip fire" id="streak-chip">🔥 <span id="streak-count">0</span> hari</span>
+            <span class="badge-chip goal" id="goal-chip">🎯 <span id="goal-count">0</span>/<span id="goal-target">20</span></span>
+        </div>
     </header>
 
-    <div class="dashboard">
-        <div class="filter-group">
-            <label for="category-filter">Fokus Topik Pembelajaran</label>
-            <select id="category-filter" onchange="filterCategory()">
-                <option value="all">🌟 Semua Kosakata (Campuran)</option>
-            </select>
-        </div>
-        <div class="stats-grid">
-            <div class="stat-card">Progress<span id="current-idx">0</span></div>
-            <div class="stat-card" style="color: #10b981;">Dikuasai<span id="score-correct">0</span></div>
-        </div>
-    </div>
+    <nav class="tabs">
+        <button class="tab-btn active" data-tab="flashcard"><i class="fa-solid fa-clone"></i><span>Kartu</span></button>
+        <button class="tab-btn" data-tab="list"><i class="fa-solid fa-list"></i><span>Daftar</span></button>
+        <button class="tab-btn" data-tab="artikel"><i class="fa-solid fa-tags"></i><span>Artikel</span></button>
+        <button class="tab-btn" data-tab="typing"><i class="fa-solid fa-keyboard"></i><span>Ketik</span></button>
+        <button class="tab-btn" data-tab="challenge"><i class="fa-solid fa-stopwatch"></i><span>Tantangan</span></button>
+    </nav>
 
-    <div class="flashcard-wrapper" onclick="flipCard()">
-        <div class="flashcard" id="card">
-            <div class="card-face card-front">
-                <div class="category-tag" id="card-category">Kategorie</div>
-                <p class="word-title" id="front-text">Loading...</p>
-                <div class="tap-hint">👆 Klik kartu untuk membalik</div>
+    <!-- ============ TAB: FLASHCARD ============ -->
+    <section class="tab-panel active" id="tab-flashcard">
+        <div class="dashboard">
+            <div class="filters-container">
+                <div class="filter-group">
+                    <label for="level-filter">Level</label>
+                    <select id="level-filter">
+                        <option value="all">🌐 Semua</option>
+                        <option value="A1">A1</option><option value="A2">A2</option>
+                        <option value="B1">B1</option><option value="B2">B2</option>
+                        <option value="C1">C1</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="category-filter">Kategori</label>
+                    <select id="category-filter"><option value="all">🌟 Semua</option></select>
+                </div>
             </div>
-            <div class="card-face card-back">
-                <div class="category-tag" id="card-category-back">Kategorie</div>
-                <div class="word-answer" id="back-text">Loading...</div>
-                <div class="word-example" id="back-example">Beispiel...</div>
-                <div class="tap-hint">👆 Klik untuk melihat soal kembali</div>
+            <div class="dashboard-meta">
+                <div class="stats-info">
+                    <div class="stat-item"><span class="stat-label">Progress</span><span class="stat-value" id="current-idx">0 / 0</span></div>
+                    <div class="stat-item" style="color: var(--success);"><span class="stat-label">Dikuasai</span><span class="stat-value" id="score-correct">0</span></div>
+                </div>
+                <div class="audio-toggle" id="audio-toggle-btn">
+                    <i class="fa-solid fa-volume-high" id="audio-icon"></i><span id="audio-status">On</span>
+                </div>
+            </div>
+            <div class="progress-bar-container"><div class="progress-bar" id="progress-bar"></div></div>
+            <div class="quick-actions">
+                <button id="btn-reverse" title="Balik arah"><i class="fa-solid fa-arrows-rotate"></i> Reverse</button>
+                <button id="btn-review-mistakes" title="Ulangi yang salah"><i class="fa-solid fa-rotate-left"></i> Salah (<span id="mistake-count">0</span>)</button>
+                <button id="btn-bookmarks" title="Filter favorit"><i class="fa-solid fa-star"></i> Favorit</button>
+                <button id="btn-progress" title="Lihat progress per kategori"><i class="fa-solid fa-chart-simple"></i> Progress</button>
             </div>
         </div>
-    </div>
 
-    <div class="controls-pane">
-        <div class="action-buttons" id="action-controls">
-            <button class="btn-wrong" onclick="markCard(false); event.stopPropagation();">❌ Lupa / Salah</button>
-            <button class="btn-correct" onclick="markCard(true); event.stopPropagation();">✅ Tahu / Ingat</button>
+        <div class="flashcard-wrapper" id="flashcard-wrapper">
+            <div class="flashcard" id="card">
+                <div class="card-face card-front">
+                    <div class="card-top-bar">
+                        <div class="badges-left">
+                            <span class="level-badge" id="card-level">A1</span>
+                            <span class="category-tag" id="card-category">Kategorie</span>
+                        </div>
+                        <button class="bookmark-btn" id="bookmark-front" title="Favorit"><i class="fa-regular fa-star"></i></button>
+                    </div>
+                    <div class="card-body"><p class="word-title" id="front-text">Memuat...</p></div>
+                    <div class="tap-hint"><i class="fa-solid fa-rotate"></i> Tap / Spasi untuk balik</div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="card-top-bar">
+                        <div class="badges-left">
+                            <span class="level-badge" id="card-level-back" style="background: var(--accent);">A1</span>
+                            <span class="category-tag" id="card-category-back">Kategorie</span>
+                        </div>
+                        <button class="bookmark-btn" id="bookmark-back" title="Favorit"><i class="fa-regular fa-star"></i></button>
+                    </div>
+                    <div class="card-body">
+                        <div class="word-answer-box">
+                            <div class="word-answer" id="back-text">...</div>
+                            <button class="speak-btn" id="speak-btn"><i class="fa-solid fa-volume-high"></i></button>
+                        </div>
+                        <div class="word-example" id="back-example">Beispiel...</div>
+                    </div>
+                    <div class="tap-hint"><i class="fa-solid fa-rotate"></i> Tap untuk kembali</div>
+                </div>
+            </div>
         </div>
-        <button class="btn-next hidden" id="next-btn" onclick="nextCard()">Kartu Berikutnya ➔</button>
+
+        <div class="controls-pane">
+            <div class="action-buttons" id="action-controls">
+                <button class="btn-wrong" id="btn-wrong"><i class="fa-solid fa-xmark"></i> Salah</button>
+                <button class="btn-correct" id="btn-correct"><i class="fa-solid fa-check"></i> Benar</button>
+            </div>
+            <button class="btn-next hidden" id="next-btn">Berikutnya <i class="fa-solid fa-arrow-right"></i></button>
+            <div class="utility-bar">
+                <button class="btn-secondary" id="btn-shuffle"><i class="fa-solid fa-shuffle"></i> Acak</button>
+                <button class="btn-secondary" id="btn-reset"><i class="fa-solid fa-trash"></i> Reset</button>
+            </div>
+        </div>
+
+        <div class="keyboard-hint">
+            <span><span class="key-badge">Spasi</span> Balik</span>
+            <span><span class="key-badge">←</span> Salah</span>
+            <span><span class="key-badge">→</span> Benar</span>
+            <span><span class="key-badge">Swipe</span> kiri/kanan</span>
+        </div>
+    </section>
+
+    <!-- ============ TAB: WORD LIST ============ -->
+    <section class="tab-panel" id="tab-list">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="Cari kata... (Indonesia atau Jerman)">
+        </div>
+        <div class="word-list" id="word-list"></div>
+    </section>
+
+    <!-- ============ TAB: ARTIKEL ============ -->
+    <section class="tab-panel" id="tab-artikel">
+        <div class="artikel-card">
+            <div class="artikel-hint"><i class="fa-solid fa-tags"></i> Pilih artikel yang benar</div>
+            <div class="artikel-word" id="artikel-word">Apfel</div>
+            <div class="artikel-buttons" id="artikel-buttons">
+                <button class="artikel-btn" data-article="der">der</button>
+                <button class="artikel-btn" data-article="die">die</button>
+                <button class="artikel-btn" data-article="das">das</button>
+            </div>
+            <div class="artikel-feedback hidden" id="artikel-feedback"></div>
+        </div>
+        <button class="btn-next" id="artikel-next" style="display: none;">Berikutnya <i class="fa-solid fa-arrow-right"></i></button>
+    </section>
+
+    <!-- ============ TAB: TYPING ============ -->
+    <section class="tab-panel" id="tab-typing">
+        <div class="typing-card">
+            <div class="typing-front" id="typing-front">Rumah</div>
+            <input type="text" class="typing-input" id="typing-input" placeholder="Ketik bahasa Jerman..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <div class="typing-feedback" id="typing-feedback"></div>
+            <div class="typing-hint" id="typing-hint"></div>
+        </div>
+        <div class="action-buttons">
+            <button class="btn-wrong" id="typing-skip"><i class="fa-solid fa-forward"></i> Skip</button>
+            <button class="btn-correct" id="typing-check"><i class="fa-solid fa-check"></i> Cek</button>
+        </div>
+    </section>
+
+        <!-- ============ TAB: CHALLENGE ============ -->
+    <section class="tab-panel" id="tab-challenge">
+        <div class="challenge-container">
+            <div class="challenge-timer" id="challenge-timer">60</div>
+            <div class="challenge-score">Skor: <span id="challenge-score">0</span> | High Score: <span id="challenge-high">0</span></div>
+            <div class="challenge-card" id="challenge-card">
+                <div class="challenge-word" id="challenge-word">Tekan mulai!</div>
+                <div class="challenge-answer" id="challenge-answer"></div>
+                <div class="challenge-buttons" id="challenge-buttons" style="display: none;">
+                    <button class="btn-wrong" id="challenge-wrong"><i class="fa-solid fa-xmark"></i> Tidak tahu</button>
+                    <button class="btn-correct" id="challenge-correct"><i class="fa-solid fa-check"></i> Tahu</button>
+                </div>
+            </div>
+            <button class="btn-next" id="challenge-start"><i class="fa-solid fa-play"></i> Mulai Tantangan 60 Detik</button>
+        </div>
+    </section>
+
+    <!-- ============ MODAL PROGRESS ============ -->
+    <div class="modal-overlay" id="progress-modal">
+        <div class="modal" style="position: relative;">
+            <button class="modal-close" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            <h2><i class="fa-solid fa-chart-simple"></i> Progress per Kategori</h2>
+            <div id="progress-list"></div>
+        </div>
     </div>
-    <script>
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
 
-        let currentDeck = [];
-        let currentIndex = 0;
-        let correctCount = 0;
+    <script src="kosakata.js"></script>
+    <script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.0/dist/confetti.browser.min.js"></script>
 
-        const cardEl = document.getElementById('card');
-        const actionControls = document.getElementById('action-controls');
-        const nextBtn = document.getElementById('next-btn');
-        const filterSelect = document.getElementById('category-filter');
-
-        function initializeApp() {
-            if (typeof rawDeck === 'undefined') {
-                alert("Error: File 'kosakata.js' tidak terdeteksi atau rusak!");
-                return;
-            }
-            const categories = [...new Set(rawDeck.map(item => item.cat))];
-            categories.sort().forEach(cat => {
-                const opt = document.createElement('option');
-                opt.value = cat;
-                opt.innerText = cat.toUpperCase();
-                filterSelect.appendChild(opt);
-            });
-            filterCategory();
-        }
-
-        function filterCategory() {
-            const selectedCat = filterSelect.value;
-            if (selectedCat === 'all') {
-                currentDeck = shuffle([...rawDeck]);
-            } else {
-                currentDeck = shuffle(rawDeck.filter(item => item.cat === selectedCat));
-            }
-            currentIndex = 0;
-            updateCardData();
-        }
-
-        function flipCard() { cardEl.classList.toggle('flipped'); }
-
-        function updateCardData() {
-            if (currentDeck.length === 0) return;
-            const currentCard = currentDeck[currentIndex];
-
-            document.getElementById('card-category').innerText = currentCard.cat;
-            document.getElementById('card-category-back').innerText = currentCard.cat;
-            document.getElementById('front-text').innerText = currentCard.front;
-            document.getElementById('back-text').innerText = currentCard.back;
-            document.getElementById('back-example').innerText = "Beispiel: " + currentCard.example;
-
-            document.getElementById('current-idx').innerText = `${currentIndex + 1} / ${currentDeck.length}`;
-
-            cardEl.classList.remove('flipped');
-            actionControls.classList.remove('hidden');
-            nextBtn.classList.add('hidden');
-        }
-
-        function markCard(isCorrect) {
-            if (isCorrect) {
-                correctCount++;
-                document.getElementById('score-correct').innerText = correctCount;
-            }
-            if (!cardEl.classList.contains('flipped')) { cardEl.classList.add('flipped'); }
-            actionControls.classList.add('hidden');
-            nextBtn.classList.remove('hidden');
-        }
-
-        function nextCard() {
-            currentIndex++;
-            if (currentIndex >= currentDeck.length) {
-                alert(`Glückwunsch! 🎯 Sesi latihan selesai!\nAnda menguasai ${correctCount} dari ${currentDeck.length} kosakata.`);
-                currentIndex = 0;
-                correctCount = 0;
-                document.getElementById('score-correct').innerText = correctCount;
-                
-                const selectedCat = filterSelect.value;
-                if (selectedCat === 'all') {
-                    currentDeck = shuffle([...rawDeck]);
-                } else {
-                    currentDeck = shuffle(rawDeck.filter(item => item.cat === selectedCat));
-                }
-            }
-            updateCardData();
-        }
-
-        window.onload = initializeApp;
-    </script>
 </body>
 </html>
