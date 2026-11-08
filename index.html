@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deutsch B1 Pro Flashcards</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --card-front-bg: #ffffff;
+            --card-back-bg: #fdfbf7;
+            --text-main: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #94a3b8;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --success: #10b981;
+            --danger: #ef4444;
+            --accent: #f59e0b;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #3b82f6, #60a5fa, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .dashboard {
+            width: 100%;
+            max-width: 420px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            background: #0f172a;
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        select:focus { border-color: var(--primary); }
+
+        .stats-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            font-size: 0.95rem;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.4);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .stat-card span {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .flashcard-wrapper {
+            perspective: 1200px;
+            width: 100%;
+            max-width: 420px;
+            height: 280px;
+            cursor: pointer;
+            margin-bottom: 25px;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .flashcard-wrapper:hover .flashcard {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .flashcard.flipped { transform: rotateY(180deg); }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 24px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .card-front {
+            background: var(--card-front-bg);
+            color: var(--text-dark);
+            border: 4px solid #f1f5f9;
+        }
+
+        .card-back {
+            background: var(--card-back-bg);
+            color: var(--text-dark);
+            transform: rotateY(180deg);
+            border: 4px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .category-tag {
+            position: absolute;
+            top: 20px;
+            font-size: 0.75rem;
+            background: var(--primary);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .card-back .category-tag {
+            background: var(--accent);
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        .word-title {
+            font-size: 1.65rem;
+            font-weight: 700;
+            line-height: 1.3;
+            text-align: center;
+            color: #1e293b;
+        }
+
+        .word-answer {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1d4ed8;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .word-example {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.5;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border-left: 5px solid var(--accent);
+            width: 100%;
+            font-style: italic;
+        }
+
+        .tap-hint {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .controls-pane {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+
+        button {
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button:hover { transform: translateY(-2px); }
+        button:active { transform: translateY(1px); }
+
+        .btn-wrong { flex: 1; padding: 16px; background: var(--danger); color: white; }
+        .btn-wrong:hover { background: #dc2626; box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4); }
+
+        .btn-correct { flex: 1; padding: 16px; background: var(--success); color: white; }
+        .btn-correct:hover { background: #059669; box-shadow: 0 6px 16px rgba(5, 150, 105, 0.4); }
+
+        .btn-next { width: 100%; padding: 16px; background: var(--primary); color: white; }
+        .btn-next:hover { background: var(--primary-hover); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4); }
+
+        .hidden { display: none !important; }
+    </style>
+    <script src="kosakata.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Deutsch B1 Studio 🇩🇪</h1>
+        <div class="subtitle">Premium Interactive Learning Platform</div>
+    </header>
+
+    <div class="dashboard">
+        <div class="filter-group">
+            <label for="category-filter">Fokus Topik Pembelajaran</label>
+            <select id="category-filter" onchange="filterCategory()">
+                <option value="all">🌟 Semua Kosakata (Campuran)</option>
+            </select>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card">Progress<span id="current-idx">0</span></div>
+            <div class="stat-card" style="color: #10b981;">Dikuasai<span id="score-correct">0</span></div>
+        </div>
+    </div>
+
+    <div class="flashcard-wrapper" onclick="flipCard()">
+        <div class="flashcard" id="card">
+            <div class="card-face card-front">
+                <div class="category-tag" id="card-category">Kategorie</div>
+                <p class="word-title" id="front-text">Loading...</p>
+                <div class="tap-hint">👆 Klik kartu untuk membalik</div>
+            </div>
+            <div class="card-face card-back">
+                <div class="category-tag" id="card-category-back">Kategorie</div>
+                <div class="word-answer" id="back-text">Loading...</div>
+                <div class="word-example" id="back-example">Beispiel...</div>
+                <div class="tap-hint">👆 Klik untuk melihat soal kembali</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls-pane">
+        <div class="action-buttons" id="action-controls">
+            <button class="btn-wrong" onclick="markCard(false); event.stopPropagation();">❌ Lupa / Salah</button>
+            <button class="btn-correct" onclick="markCard(true); event.stopPropagation();">✅ Tahu / Ingat</button>
+        </div>
+        <button class="btn-next hidden" id="next-btn" onclick="nextCard()">Kartu Berikutnya ➔</button>
+    </div>
+    <script>
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        let currentDeck = [];
+        let currentIndex = 0;
+        let correctCount = 0;
+
+        const cardEl = document.getElementById('card');
+        const actionControls = document.getElementById('action-controls');
+        const nextBtn = document.getElementById('next-btn');
+        const filterSelect = document.getElementById('category-filter');
+
+        function initializeApp() {
+            if (typeof rawDeck === 'undefined') {
+                alert("Error: File 'kosakata.js' tidak terdeteksi atau rusak!");
+                return;
+            }
+            const categories = [...new Set(rawDeck.map(item => item.cat))];
+            categories.sort().forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat;
+                opt.innerText = cat.toUpperCase();
+                filterSelect.appendChild(opt);
+            });
+            filterCategory();
+        }
+
+        function filterCategory() {
+            const selectedCat = filterSelect.value;
+            if (selectedCat === 'all') {
+                currentDeck = shuffle([...rawDeck]);
+            } else {
+                currentDeck = shuffle(rawDeck.filter(item => item.cat === selectedCat));
+            }
+            currentIndex = 0;
+            updateCardData();
+        }
+
+        function flipCard() { cardEl.classList.toggle('flipped'); }
+
+        function updateCardData() {
+            if (currentDeck.length === 0) return;
+            const currentCard = currentDeck[currentIndex];
+
+            document.getElementById('card-category').innerText = currentCard.cat;
+            document.getElementById('card-category-back').innerText = currentCard.cat;
+            document.getElementById('front-text').innerText = currentCard.front;
+            document.getElementById('back-text').innerText = currentCard.back;
+            document.getElementById('back-example').innerText = "Beispiel: " + currentCard.example;
+
+            document.getElementById('current-idx').innerText = `${currentIndex + 1} / ${currentDeck.length}`;
+
+            cardEl.classList.remove('flipped');
+            actionControls.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+        }
+
+        function markCard(isCorrect) {
+            if (isCorrect) {
+                correctCount++;
+                document.getElementById('score-correct').innerText = correctCount;
+            }
+            if (!cardEl.classList.contains('flipped')) { cardEl.classList.add('flipped'); }
+            actionControls.classList.add('hidden');
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextCard() {
+            currentIndex++;
+            if (currentIndex >= currentDeck.length) {
+                alert(`Glückwunsch! 🎯 Sesi latihan selesai!\nAnda menguasai ${correctCount} dari ${currentDeck.length} kosakata.`);
+                currentIndex = 0;
+                correctCount = 0;
+                document.getElementById('score-correct').innerText = correctCount;
+                
+                const selectedCat = filterSelect.value;
+                if (selectedCat === 'all') {
+                    currentDeck = shuffle([...rawDeck]);
+                } else {
+                    currentDeck = shuffle(rawDeck.filter(item => item.cat === selectedCat));
+                }
+            }
+            updateCardData();
+        }
+
+        window.onload = initializeApp;
+    </script>
+</body>
+</html>
